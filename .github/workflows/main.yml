@@ -1,4 +1,4 @@
-name: Example
+name: mysql
 
 on:
   push:
@@ -13,18 +13,9 @@ jobs:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: root_password
-          MYSQL_DATABASE: foo
-          MYSQL_USER: user1
-          MYSQL_PASSWORD: user1_password
-        options: >-
-          --health-cmd "mysqladmin ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          MYSQL_DATABASE: django_db
+          MYSQL_USER: django_user
+          MYSQL_PASSWORD: pa$$word
     steps:
       - name: Show Docker containers
         run: docker ps -a
-      - name: Show databases for root user
-        run: mysql --protocol=tcp -h localhost -P 3306 -u root -proot_password -e "SHOW DATABASES"
-      - name: Show databases for user1
-        run: mysql --protocol=tcp -h localhost -P 3306 -u user1 -puser1_password -e "SHOW DATABASES"
