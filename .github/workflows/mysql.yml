@@ -18,23 +18,19 @@ jobs:
         # Start MySQL service
         sudo service mysql start
 
-        # Secure MySQL installation (modify these commands for your security requirements)
-        sudo mysql -e "UPDATE mysql.user SET Password=PASSWORD('YourPassword') WHERE User='root'"
-        sudo mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')"
-        sudo mysql -e "DELETE FROM mysql.user WHERE User=''"
-        sudo mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%'"
-        sudo mysql -e "FLUSH PRIVILEGES"
+        # Set the root password for MySQL (replace YourRootPassword with your desired root password)
+        sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'YourRootPassword'"
 
         # Create a new MySQL user and database
         sudo mysql -e "CREATE DATABASE YourDatabaseName"
         sudo mysql -e "CREATE USER 'YourUsername'@'localhost' IDENTIFIED BY 'YourPassword'"
         sudo mysql -e "GRANT ALL PRIVILEGES ON YourDatabaseName.* TO 'YourUsername'@'localhost'"
         sudo mysql -e "FLUSH PRIVILEGES"
-        
+
         # Optional: Output MySQL version for verification
         mysql --version
 
       env:
-        MYSQL_ROOT_PASSWORD: YourPassword
-        MYSQL_USER: YourUsername
-        MYSQL_DATABASE: YourDatabaseName
+        YourRootPassword: YourDesiredRootPassword
+        YourUsername: YourDesiredUsername
+        YourDatabaseName: YourDesiredDatabaseName
