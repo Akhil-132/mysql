@@ -3,7 +3,7 @@ name: MySQL Setup
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   setup-mysql:
