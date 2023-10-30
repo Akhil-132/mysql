@@ -14,20 +14,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up MySQL
-        uses: mysqljs/mysql@v2
+        uses: pullreminders/setup-mysql@v1
         with:
-          query: |
-            CREATE DATABASE IF NOT EXISTS akhil;
-            CREATE USER 'akhil'@'localhost' IDENTIFIED BY 'password';
-            GRANT ALL PRIVILEGES ON akhil.* TO 'akhil'@'localhost';
-
-      - name: Configure MySQL
+          mysql-version: '8.0'
+        
+      - name: Create MySQL DB, User, and Permissions
         run: |
-          echo "[client]" >> $HOME/.my.cnf
-          echo "user=root" >> $HOME/.my.cnf
-          echo "password= " >> $HOME/.my.cnf
-        env:
-          MYSQL_ROOT_PASSWORD: 
-
-      - name: Verify MySQL
-        run: mysql -e "SELECT User,Host FROM mysql.user;"
+          mysql -h localhost -e "CREATE DATABASE IF NOT EXISTS akhil;
+          CREATE USER 'new_user'@'localhost' IDENTIFIED BY 'password';
+          GRANT ALL PRIVILEGES ON database_name.* TO 'new_user'@'localhost';"
