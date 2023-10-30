@@ -20,11 +20,6 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Waiting for MySQL to be ready
-      run: |
-        dockerize -wait tcp://localhost:3306 -timeout 1m
-      env:
-        DOCKERIZE_VERSION: v0.6.1
 
     - name: Create MySQL user and grant permissions
       run: |
