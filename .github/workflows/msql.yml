@@ -3,7 +3,7 @@ name: Create MySQL DB, User, and Permissions
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   create-mysql-db-user:
