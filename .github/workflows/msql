@@ -1,0 +1,33 @@
+name: Create MySQL DB, User, and Permissions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-mysql-db-user:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up MySQL
+        uses: mysqljs/mysql@v2
+        with:
+          query: |
+            CREATE DATABASE IF NOT EXISTS akhil;
+            CREATE USER 'akhil'@'localhost' IDENTIFIED BY 'password';
+            GRANT ALL PRIVILEGES ON akhil.* TO 'akhil'@'localhost';
+
+      - name: Configure MySQL
+        run: |
+          echo "[client]" >> $HOME/.my.cnf
+          echo "user=root" >> $HOME/.my.cnf
+          echo "password= " >> $HOME/.my.cnf
+        env:
+          MYSQL_ROOT_PASSWORD: 
+
+      - name: Verify MySQL
+        run: mysql -e "SELECT User,Host FROM mysql.user;"
